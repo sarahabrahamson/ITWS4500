@@ -1,0 +1,214 @@
+<!doctype html>
+
+<html>
+	<head>
+		<title>Tweet Ticker</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
+		<link rel="stylesheet" href="bootstrap.css">
+		<link rel="stylesheet" href="tweetstyle.css">
+	</head>
+	<body>
+		<article>
+			<ul class="list-group col-md-6" id="tweetlist">
+			  <li class="list-group-item" id="t1">		
+			  	<section class="media"><article class="media-left">
+					    <img class="media-object" id="p1" src="" alt="User Profile">
+					  </article><article class="media-body">
+					    <h6 class="media-heading" id="n1"></h6>
+								<article id="c1">text</article>
+					  </article></section>
+			  </li><li class="list-group-item" id="t2">		
+			  		<section class="media"><article class="media-left">
+					    <img class="media-object" id="p2" src="" alt="User Profile">
+					  </article><article class="media-body">
+					    <h6 class="media-heading" id="n2"></h6>
+								<article id="c2">text</article>
+					  </article></section>
+			  </li><li class="list-group-item" id="t3">		
+			  	<section class="media"><article class="media-left">
+					    <img class="media-object" id="p3" src="" alt="User Profile">
+					  </article><article class="media-body">
+					    <h6 class="media-heading" id="n3"></h6>
+								<article id="c3">text</article>
+					  </article></section>
+			  </li><li class="list-group-item" id="t4">		
+			  	<section class="media"><article class="media-left">
+					    <img class="media-object" id="p4" src="" alt="User Profile">
+					  </article><article class="media-body">
+					    <h6 class="media-heading" id="n4"></h6>
+								<article id="c4">text</article>
+						</article></section>
+			  </li><li class="list-group-item" id="t5">		
+			  	<section class="media"><article class="media-left">
+					    <img class="media-object" id="p5" src="" alt="User Profile">
+					  </article><article class="media-body">
+					    <h6 class="media-heading" id="n5"></h6>
+								<article id="c5">text</article>
+					  </article></section>
+			  </li><li class="list-group-item" id="t6">		
+			  	<section class="media"><article class="media-left">
+					    <img class="media-object" id="p6" src="" alt="User Profile">
+					  </article><article class="media-body">
+					    <h6 class="media-heading" id="n6"></h6>
+								<article id="c6">text</article>
+					  </article></section>
+			</ul>
+			<ul class="list-group col-md-2" id="hashlist">
+			  <li class="list-group-item list-group-item-info" id="h1">		
+			  	<section class="media"><article class="media-left">
+					  </article><article class="media-body">
+								<article id="r1">text</article>
+					  </article></section>
+			  </li><li class="list-group-item list-group-item-info" id="h2">		
+			  		<section class="media"><article class="media-left">
+					  </article><article class="media-body">
+								<article id="r2">text</article>
+					  </article></section>
+			  </li><li class="list-group-item list-group-item-info" id="h3">		
+			  	<section class="media"><article class="media-left">
+					  </article><article class="media-body">
+								<article id="r3">text</article>
+					  </article></section>
+			  </li><li class="list-group-item list-group-item-info" id="h4">		
+			  	<section class="media"><article class="media-left">
+					  </article><article class="media-body">
+								<article id="r4">text</article>
+						</article></section>
+			  </li><li class="list-group-item list-group-item-info" id="h5">		
+			  	<section class="media"><article class="media-left">
+					  </article><article class="media-body">
+								<article id="r5">text</article>
+					  </article></section>
+			  </li><li class="list-group-item list-group-item-info" id="h6">		
+			  	<section class="media"><article class="media-left">
+					  </article><article class="media-body">
+								<article id="r6">text</article>
+					  </article></section>
+			  </li>
+			</ul>
+		</article>
+	</body>
+	<script>
+		$(document).ready(function(){
+			var tweets=[];
+			var iter = 0;
+			var hashtags=[];
+			var tweet=[];
+			$.getJSON('tweetsFromTwitter.json', function(data) {
+			 	$.each(data, function(d1,k1) {
+			 		$.each(k1,function(d2,k2){
+			 			switch (d2){
+			 				case "user":
+			 					$.each(k2, function(d3, k3){
+			 						if(d3 == "name" || d3 == "screen_name"){
+			 							tweet.push(k3);
+			 						}
+			 						if(d3 == "profile_image_url"){
+			 							tweet.push(k3);
+			 						}
+			 					});
+			 					break;
+			 				case "text":
+			 					tweet.push(k2);
+			 					break;
+			 				case "entities":
+			 					$.each(k2, function(d3, k3){
+			 						if(d3 == "hashtags"){
+			 							$.each(k3, function(d4,k4){
+			 								$.each(k4, function(d5,k5){
+			 									if(d5 == "text"){
+			 										hashtags.push(k5);
+			 									}
+			 								});
+			 							});
+			 						}
+								});
+			 					break;
+			 				default:
+			 					break;
+			 			}
+			 		});
+					tweets.push(tweet);
+					tweet = [];
+			 	});
+				
+			}).then(function(){
+				function updateTweets(tweets, i){
+					setTimeout(function(){
+						$('#t6').slideUp(2985).show(1);
+						$('#t1').hide(1).slideDown(2985);
+						$('#n1').html(tweets[i+5][1] + " - @" + tweets[i+5][2])
+						$('#c1').html(tweets[i+5][0]);
+						$('#p1').attr("src",tweets[i+5][3]);
+						$('#n2').html(tweets[i+4][1] + " - @" + tweets[i+4][2])
+						$('#c2').html(tweets[i+4][0]);
+						$('#p2').attr("src",tweets[i+4][3]);
+						$('#n3').html(tweets[i+3][1] + " - @" + tweets[i+3][2])
+						$('#c3').html(tweets[i+3][0]);
+						$('#p3').attr("src",tweets[i+3][3]);
+						$('#n4').html(tweets[i+2][1] + " - @" + tweets[i+2][2])
+						$('#c4').html(tweets[i+2][0]);
+						$('#p4').attr("src",tweets[i+2][3]);
+						$('#n5').html(tweets[i+1][1] + " - @" + tweets[i+1][2])
+						$('#c5').html(tweets[i+1][0]);
+						$('#p5').attr("src",tweets[i+1][3]);
+						$('#n6').html(tweets[i][1] + " - @" + tweets[i][2])
+						$('#c6').html(tweets[i][0]);
+						$('#p6').attr("src",tweets[i][3]);
+					}, i*3000);
+				}
+				function updateHashtags(hashtags, x){
+					setTimeout(function(){
+						$('#h6').slideUp(3990).show(10);
+						$('#h1').hide(10).slideDown(3900);
+						$('#r1').html('#' + hashtags[x+5]);
+						$('#r2').html("#" + hashtags[x+4]);
+						$('#r3').html("#" + hashtags[x+3]);
+						$('#r4').html("#" + hashtags[x+2]);
+						$('#r5').html("#" + hashtags[x+1]);
+						$('#r6').html("#" + hashtags[x]);
+					},x*4000);
+				}
+				for(i = 0; i < tweets.length - 5; i++){
+					updateTweets(tweets, i);
+				}
+				for(x = 0; x < hashtags.length - 5; x++){
+					updateHashtags(hashtags, x);
+				}
+
+			});
+
+
+		});
+	</script>
+</html>
+
+
+
+
+<!-- load data from json into array
+add array 5 at a time in for loop
+access 5 ahead, repopulate every time
+only have animations on first and last
+keep list items the same,
+just update their fields
+
+					// if(iter >= 4 && iter < 1000){
+					// 	$('#n1').html(tweets[iter-4][1] + " - @" + tweets[iter-4][2])
+					// 	$('#c1').html(tweets[iter-4][0]);
+					// 	$('#p1').attr("src",tweets[iter-4][3]);
+					// 	$('#n2').html(tweets[iter-3][1] + " - @" + tweets[iter-3][2])
+					// 	$('#c2').html(tweets[iter-3][0]);
+					// 	$('#p2').attr("src",tweets[iter-3][3]);
+					// 	$('#n3').html(tweets[iter-2][1] + " - @" + tweets[iter-2][2])
+					// 	$('#c3').html(tweets[iter-2][0]);
+					// 	$('#p3').attr("src",tweets[iter-2][3]);
+					// 	$('#n4').html(tweets[iter-1][1] + " - @" + tweets[iter-1][2])
+					// 	$('#c4').html(tweets[iter-1][0]);
+					// 	$('#p4').attr("src",tweets[iter-1][3]);
+					// 	$('#n5').html(tweets[iter][1] + " - @" + tweets[iter][2])
+					// 	$('#c5').html(tweets[iter][0]);
+					// 	$('#p5').attr("src",tweets[iter][3]);
+					// }
+					// iter++;
+ -->

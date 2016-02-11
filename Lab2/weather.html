@@ -1,0 +1,71 @@
+<!doctype html>
+
+<html>
+	<head>
+		<title>Weather Forecast</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.js"></script>
+		<link rel="stylesheet" href="bootstrap.css">
+	</head>
+	<body>
+		<section>
+			<article>
+				<p id="temp"></p>
+				<p id="weatherType"></p>
+				<p id="humidity"></p>
+				<p id="windspeed"></p>
+				<p id="tempMin"></p>
+				<p id="tempMax"></p>
+
+			</article>
+		</section>
+	</body>
+	<script>
+		var lat;
+		var lon;
+		if(navigator.geolocation){
+			navigator.geolocation.getCurrentPosition(getLocation);
+		}
+		function getLocation(position){
+			lat = position.coords.latitude;
+			lon = position.coords.longitude;
+		
+			$.ajax({
+		    type: "GET",
+		    url: "http://api.openweathermap.org/data/2.5/weather?lat="+lat+"&lon="+lon+"&APPID=44db6a862fba0b067b1930da0d769e98&units=imperial",
+		    dataType: "jsonp",
+		    success: function(responseData, status) {
+		      var weatherType = [];
+		      var temp = '';
+		      var tempMin = '';
+		      var tempMax = '';
+		      var humidity = '';
+		      var windSpeed = '';
+		      $.each(responseData.weather, function(i, i2) {
+		      	$.each(i2, function(k,v){
+		      		if(k == "main"){weatherType.push(v);}
+		      	});
+					});
+		      var weather = weatherType[0];
+		      for(t = 1; t < weatherType.length; t++){
+		      	weather += ", " + weatherType[t];
+		      }
+		      $("#weatherType").html(weather);
+		      $.each(responseData.main, function(k1, v1) {
+	      		if(k1=="temp"){temp=v1+" F";}
+	      		else if(k1=="humidity"){humidity=v1 + "%";}
+	      		else if(k1=="temp_min"){tempMin = v1 + " F";}
+	      		else if(k1=="temp_max"){tempMax = v1 + " F";}
+	      	});
+      		$("#temp").html(temp);
+      		$("#humidity").html(humidity);
+		      $("#tempMin").html("Low of " + tempMin);
+		      $("#tempMax").html("High of " + tempMax);
+		      $.each(responseData.wind, function(k2, v2) {
+		      	if(k2=="speed"){windSpeed=v2 + " mph";}
+		      });
+		      $("#windspeed").html(windSpeed);
+	    	}
+	  	});
+		}
+	</script>
+</html>

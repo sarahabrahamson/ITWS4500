@@ -1,0 +1,31 @@
+body{
+	background-color: lightgray;
+}
+
+#c1,#c2,#c3,#c4,#c5,#c6{
+	color:#55acee;
+	font-family: Gotham, Arial, sans-serif;
+}
+
+#tweetlist{
+	margin-top: 50px;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+#hashlist{
+	margin-top: 50px;
+	margin-right: 5%;
+	margin-left: 5%;
+}
+
+#hashlist li {
+	background-color: #55acee;
+}
+
+#r1,#r2,#r3,#r4,#r5,#r6{
+	color: white;
+	font-family: Gotham, Arial, sans-serif;
+	font-weight: bold;
+}
+
