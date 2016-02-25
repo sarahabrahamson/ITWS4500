@@ -1,0 +1,50 @@
+#temp {
+	font-size: 2.5rem;
+	font-weight: bold;
+}
+#name{
+	font-size: 2rem;
+	font-weight:bold;
+}
+#container{
+	text-align: center;
+	font-family: Arial, Gadget, sans-serif;
+	padding: 0px;
+	margin-top: auto;
+}
+@media(max-width:750px){
+	#temp {
+	font-size: 2.5rem;
+	font-weight: bold;
+	}
+	#name{
+		font-size: 2rem;
+		font-weight:bold;
+	}
+	#container, #forecast{
+		text-align: center;
+		font-family: Arial, Gadget, sans-serif;
+		padding: 0px;
+		margin-top: 0px;
+		min-width: 700px;
+	}
+}
+@media(min-width:1200px){
+	#temp {
+	font-size: 2.5rem;
+	font-weight: bold;
+	}
+	#name{
+		font-size: 2rem;
+		font-weight:bold;
+	}
+	#container{
+		text-align: center;
+		font-family: Arial, Gadget, sans-serif;
+		padding: 0px;
+		margin-top: 40px;
+		margin-left: 20px;
+		width: 800px;
+	}
+}
+
